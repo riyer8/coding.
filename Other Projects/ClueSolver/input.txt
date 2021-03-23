@@ -1,0 +1,24 @@
+false
+4
+p1 p2 p3 p4
+wrench revolver
+conservatory ballroom candlestick rope
+p3 lounge white candlestick p1
+p4 green knife conservatory p1
+p1 plum knife library p3 knife
+p2 white leadpipe dining none
+p3 mustard rope dining p1
+p4 scarlet rope billiard p1
+p1 study mustard candlestick p3 mustard
+p2 peacock wrench lounge p4
+p3 scarlet knife dining p4
+p4 green leadpipe billiard p2
+p1 peacock candlestick study p4 peacock
+p2 conservatory green leadpipe p1
+p3 green knife hall p2
+p4 ballroom leadpipe peacock p2
+p1 plum leadpipe library p4 library
+p2 billiard plum leadpipe none
+p3 plum leadpipe hall none
+
+bug -- line 13 should be something -- need some intelligence factor?

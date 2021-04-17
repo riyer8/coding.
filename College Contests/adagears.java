@@ -3,6 +3,8 @@ import java.util.*;
 import java.lang.*;
 import java.math.*;
 
+//Cornell Contest 2021 Warm Up - Adagears
+
 public class adagears {
 	static boolean[] visited;
 	static ArrayList<Integer>[] adjList;

@@ -3,38 +3,54 @@ import java.util.*;
 import java.lang.*;
 import java.math.*;
 
-public class sniper {
+//Lexington High School Problems: Waiting
+ 
+public class Waiting {
 	public void run() throws Exception {
 		FastScanner sc = new FastScanner();
 		
 		int n = sc.nextInt();
-		for (int i = 0; i<n;i++) {
-			long t = sc.nextInt();
-			long k = sc.nextInt();
-			Map<Long, Long> map = new HashMap<Long, Long>();
-			long possum = 0;
-			long negsum = 0;
-			long pos = 0;
-			long neg = 0;
-			for (long j = 0; j<t; j++) {
-				long h = sc.nextLong();
-				if (h>0) {
-					possum+=h;
-					pos++;
-				}
-				else {
-					negsum+=Math.abs(h);
-					neg++;
-				}
-				if (pos>neg) map.put(j+1, pos-neg);
+		int m = sc.nextInt();
+		int l = sc.nextInt();
+		ArrayDeque<Integer> qu = new ArrayDeque<Integer>(); //ppl outside
+		int max = 0;
+		for (int i =0 ; i<n; i++) {
+			qu.add(sc.nextInt());
+			if (i == n-1) {
+				max = qu.peekLast()+m;
 			}
-			long sum = possum-negsum;
-			for (long j = 0; j<k; j++) {
-				long b = sc.nextLong();
-				if (map.containsKey(b)) sum+=map.get(b);
-			}
-			System.out.println(sum);
 		}
+		int small = qu.peekFirst();
+		ArrayDeque<Integer> room = new ArrayDeque<Integer>(); //ppl in room
+		int[] times = new int[max];
+		int people = 0;
+		int smalltime = qu.peekFirst()+m;
+		for (int i = 0; i<n; i++) {
+			if (room.size()>1 && qu.size()>1 && room.peekFirst()+m<qu.peekFirst()) {
+				room.poll();
+			}
+			if (room.size()<l) {
+				int x = qu.poll();
+				room.add(x);
+				for (int j = x; j<x+m; j++) {
+					times[j]++;
+				}
+			}
+			else {
+				for (int j = Math.max(room.peekFirst()+m,qu.peek()); j<Math.max(room.peekFirst()+2*m,qu.peek()+m); j++  ) {
+					times[j]++;
+				}
+				room.add(room.pollFirst()+m);
+				qu.poll();
+			}
+		}
+		int count = 0;
+		for (int i = small; i<max; i++) {
+			if (times[i] == 0) {
+				count++;
+			}
+		}
+		System.out.println(count);
 	}
 	public class Pair implements Comparable<Pair>{
 		int num, times;
@@ -67,29 +83,11 @@ public class sniper {
 		}
 		return true;
 	}
-	public long gcd(long a, long b)   {
+	public static long gcd(long a, long b)   {
 		if (a == b) return a;
 		if (a > b) return gcd(a-b, b);
 		return gcd(a, b-a);
     }
-	public ArrayList<Pair> together(String s) {
-		ArrayList<Pair> cost = new ArrayList<Pair>();
-		char num = '!'; int times = 0;
-		for (int i = 0; i<s.length(); i++) {
-			if (i == 0) {
-				num = s.charAt(i);
-				times = 1;
-			}
-			else if (num != s.charAt(i)) {
-				cost.add(new Pair(num,times));
-				num = s.charAt(i);
-				times = 1;
-			}
-			else times++;
-		}
-		cost.add(new Pair(num,times));
-		return cost;
-	}
 	static class FastScanner {
 		public BufferedReader reader;
 		public StringTokenizer tokenizer;
@@ -132,6 +130,16 @@ public class sniper {
  
 	}
 	public static void main (String[] args) throws Exception {
-		new sniper().run();
+		new Waiting().run();
+	}
+	public void shuffleArray(long[] arr) {
+        int n = arr.length;
+        Random rnd = new Random();
+        for(int i=0; i<n; ++i){
+            long tmp = arr[i];
+            int randomPos = i + rnd.nextInt(n-i);
+            arr[i] = arr[randomPos];
+            arr[randomPos] = tmp;
+        }   
 	}
 }

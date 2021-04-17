@@ -5,7 +5,7 @@ import java.math.*;
 
 //Used a variation of Union-Find
 
-public class airlines {
+public class Airlines {
 	Map<String, Integer> map;
 	
 	public boolean connected(String p, String q) { 
@@ -38,6 +38,6 @@ public class airlines {
 		}
 	}
 	public static void main (String[] args) throws Exception {
-		new airlines().run();
+		new Airlines().run();
 	}
 }

@@ -3,37 +3,56 @@ import java.util.*;
 import java.lang.*;
 import java.math.*;
 
-public class suburban {
+//Lexington High School Problems: Energy
+
+public class energy {
 	public void run() throws Exception {
 		FastScanner sc = new FastScanner();
 		
-		int n  = sc.nextInt();
-		for (int i = 0;i<n; i++) {
-			long x = sc.nextLong();
-			int ans1 = 0;
-			int ans2 = 0;
-			for (int j= 0; j<=Math.sqrt(x); j++) {
-				if (Math.sqrt(x-j*j) == (int)Math.floor(Math.sqrt(x-j*j))) {
-					ans1 = (int)Math.floor(Math.sqrt(x-j*j));
-					ans2 = j;
-				}
-			}
-			if (ans1 == 0 && ans2 == 0) System.out.println(-1);
-			else System.out.println(ans1+ans2);
+		int n = sc.nextInt();
+		int m = sc.nextInt();
+		int t = sc.nextInt();
+		int[] cost = new int[n];
+		for (int i = 0; i<n; i++) {
+			cost[i] = sc.nextInt();
 		}
+		LinkedList<Pair>[] adj = new LinkedList[n];
+		for (int i = 0; i<n; i++) {
+			adj[i] = new LinkedList<>();
+		}
+		for (int i =0; i< m; i++) {
+			int a = sc.nextInt()-1, b = sc.nextInt()-1, c = sc.nextInt();
+			adj[a].add(new Pair(b,c));
+			adj[b].add(new Pair(a,c));
+		}
+		int[] best = new int[n];
+		Arrays.fill(best, Integer.MAX_VALUE);
+		PriorityQueue<Pair> pq = new PriorityQueue<>();
+		pq.add(new Pair(0,0));
+		while(!pq.isEmpty()) {
+			Pair p = pq.poll();
+			int i = p.a, dist = p.b;
+			if (best[i]<=dist) continue;
+			best[i] = dist;
+			for (Pair nx: adj[i]) {
+				pq.add(new Pair(nx.a, dist+nx.b));
+			}
+			for (int b: best) System.out.println();
+		}
+		
 	}
 	public class Pair implements Comparable<Pair>{
-		int num, times;
-		public Pair(int a, int b) {
-			num = a;
-			times = b;
+		int a, b;
+		public Pair(int num, int times) {
+			a = num;
+			b = times;
 		}
-		public int compareTo(Pair a) {
-			if (num == a.num) return times-a.times;
-			return num-a.num;
+		public int compareTo(Pair ok) {
+			if (a == ok.a) return Integer.compare(b, ok.b);
+			return Integer.compare(a, ok.a);
 		}
 		public String toString() {
-			return num + " " + times;
+			return b + " " + b;
 		}
 	}
 	public int[] shuffleArray(int[] arr) {
@@ -53,29 +72,11 @@ public class suburban {
 		}
 		return true;
 	}
-	public long gcd(long a, long b)   {
+	public static long gcd(long a, long b)   {
 		if (a == b) return a;
 		if (a > b) return gcd(a-b, b);
 		return gcd(a, b-a);
     }
-	public ArrayList<Pair> together(String s) {
-		ArrayList<Pair> cost = new ArrayList<Pair>();
-		char num = '!'; int times = 0;
-		for (int i = 0; i<s.length(); i++) {
-			if (i == 0) {
-				num = s.charAt(i);
-				times = 1;
-			}
-			else if (num != s.charAt(i)) {
-				cost.add(new Pair(num,times));
-				num = s.charAt(i);
-				times = 1;
-			}
-			else times++;
-		}
-		cost.add(new Pair(num,times));
-		return cost;
-	}
 	static class FastScanner {
 		public BufferedReader reader;
 		public StringTokenizer tokenizer;
@@ -118,6 +119,16 @@ public class suburban {
  
 	}
 	public static void main (String[] args) throws Exception {
-		new suburban().run();
+		new energy().run();
+	}
+	public void shuffleArray(long[] arr) {
+        int n = arr.length;
+        Random rnd = new Random();
+        for(int i=0; i<n; ++i){
+            long tmp = arr[i];
+            int randomPos = i + rnd.nextInt(n-i);
+            arr[i] = arr[randomPos];
+            arr[randomPos] = tmp;
+        }   
 	}
 }
